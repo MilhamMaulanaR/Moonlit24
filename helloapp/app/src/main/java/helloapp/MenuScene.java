@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -23,24 +25,15 @@ public class MenuScene {
     MenuScene(Stage stage){
         this.stage = stage;
     }
-
+    
     public void show(){
-        Label label1 = new Label("What would you");
-        Label label2 = new Label("like to Cook?");
-        Label label3 = new Label("Today recipe");
-        Label label4 = new Label("Recommended");
-
-        recipeList = FXCollections.observableArrayList(
-            "Ayam Bakar Madu", "Ayam Szechuan Pedas", "Capcay Goreng Sayur", "Daging Tumis Buncis", "Ikan Bakar Bumbu Bali","Rendang Daging Padang", "Steak Daging Black Papper", "Daging Tumis Buncis","Ikan Bakar Bumbu Bali", "Ikan Goreng Tapung Asam Manis", "Sup Ikan Tomat", "Capcay Goreng Sayur", "Tumis Kangkung Bawang Putih", "Sayur Lodeh");
-
-    recipeListView = new ListView<>();
-
         TextField searchField = new TextField();
+        searchField.setAlignment(Pos.CENTER);
         searchField.setPromptText("Search Recipe");
         searchField.setOnKeyReleased(event -> {
             String keyword = searchField.getText().trim().toLowerCase();
             ObservableList<String> filterList = FXCollections.observableArrayList();
-
+            
             for (String recipe : recipeList) {
                 if (recipe.toLowerCase().contains(keyword)) {
                     filterList.add(recipe);
@@ -49,6 +42,9 @@ public class MenuScene {
             recipeListView.setItems(filterList);
         });
 
+        recipeListView = new ListView<>();
+        // recipeListView.setVisible(false);
+        recipeListView.setMaxHeight(50);
         recipeListView.setCellFactory(param -> {
             ListCell<String> cell = new ListCell<>() {
                 @Override
@@ -62,7 +58,8 @@ public class MenuScene {
                     }
                 }
             };
-
+            
+            
             cell.setOnMouseClicked(event -> {
                 String selectedRecipe = cell.getItem();
                 if (selectedRecipe != null) {
@@ -104,20 +101,62 @@ public class MenuScene {
             });
             return cell;
         });
+        Label label1 = new Label("What would you");
+        Label label2 = new Label("like to Cook?");
+        Label label3 = new Label("Populer Recipes");
+        
+        Image image = new Image("D:/kisspng-flame-fire-cartoon-clip-art-monochrome-5abcdae20a4f52.5651434315223262420422.png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(20);
+        imageView.setFitHeight(20);
+
+        Image image2 = new Image("D:/turkey-removebg-preview.png");
+        ImageView imageView2 = new ImageView(image2);
+        imageView2.setFitWidth(20);
+        imageView2.setFitHeight(20);
+
+        Image image3 = new Image("D:/fish-removebg-preview.png");
+        ImageView imageView3 = new ImageView(image3);
+        imageView3.setFitWidth(20);
+        imageView3.setFitHeight(20);
+        
+        Image image4 = new Image("D:/vegetable-removebg-preview.png");
+        ImageView imageView4 = new ImageView(image4);
+        imageView4.setFitWidth(20);
+        imageView4.setFitHeight(20);
+        
+        Image image5 = new Image("D:/meat-removebg-preview.png");
+        ImageView imageView5 = new ImageView(image5);
+        imageView5.setFitWidth(20);
+        imageView5.setFitHeight(20);
+
+        Button buttonPopuler = new Button();
+        buttonPopuler.setGraphic(imageView);
+        buttonPopuler.setOnAction(V -> {
+            
+        });
+        Button buttonAyam = new Button();
+        buttonAyam.setGraphic(imageView2);
+        Button buttonIkan = new Button();
+        buttonIkan.setGraphic(imageView3);
+        Button buttonSayur = new Button();
+        buttonSayur.setGraphic(imageView4);
+        Button buttonDaging = new Button();
+        buttonDaging.setGraphic(imageView5);
+
+        recipeList = FXCollections.observableArrayList(
+            "Ayam Bakar Madu", "Ayam Szechuan Pedas", "Capcay Goreng Sayur", "Daging Tumis Buncis", "Ikan Bakar Bumbu Bali","Rendang Daging Padang", "Steak Daging Black Papper", "Daging Tumis Buncis","Ikan Bakar Bumbu Bali", "Ikan Goreng Tapung Asam Manis", "Sup Ikan Tomat", "Capcay Goreng Sayur", "Tumis Kangkung Bawang Putih", "Sayur Lodeh");
+
+        HBox hBox = new HBox(5);
+        hBox.getChildren().add(buttonPopuler);
+        hBox.getChildren().add(buttonAyam);
+        hBox.getChildren().add(buttonIkan);
+        hBox.getChildren().add(buttonDaging);
+        hBox.getChildren().add(buttonSayur);
+        hBox.setAlignment(Pos.CENTER);
 
         VBox root = new VBox(10);
         root.getChildren().addAll(searchField, recipeListView);
-        
-        Image image = new Image("file:D:/BG-PJMBLACK.jpg");
-        ImageView imageView = new ImageView(image);
-        imageView.setFitWidth(70);
-        imageView.setFitHeight(100);
-        ImageView imageView2 = new ImageView(image);
-        imageView2.setFitWidth(70);
-        imageView2.setFitHeight(100);
-        ImageView imageView3 = new ImageView(image);
-        imageView3.setFitWidth(100);
-        imageView3.setFitHeight(70);
 
         
         GridPane gridPane = new GridPane();
@@ -127,11 +166,9 @@ public class MenuScene {
         gridPane.add(label1,0,0);
         gridPane.add(label2,0,1);
         gridPane.add(root,0,3);
-        gridPane.add(label3,0,3);
-        gridPane.add(imageView,0,4);
-        gridPane.add(imageView2,1,4);
-        gridPane.add(label4,0,5);
-        gridPane.setAlignment(Pos.TOP_LEFT);
+        gridPane.add(hBox,0,4);
+        gridPane.add(label3,0,5);
+        gridPane.setAlignment(Pos.TOP_CENTER);
         
         Scene scene = new Scene(gridPane, 350, 600);
         stage.setScene(scene);
